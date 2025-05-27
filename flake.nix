@@ -9,7 +9,7 @@
     };
 
     helix-flake = {
-      url = "github:mattwparas/helix";
+      url = "github:mattwparas/helix/steel-event-system";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
@@ -18,7 +18,7 @@
   };
 
   outputs =
-    inputs@{
+    {
       self,
       nixpkgs,
       flake-utils,
@@ -33,9 +33,47 @@
       {
         packages = rec {
           helix = helix-flake.packages.${system}.helix;
+          helix-cogs = helix-flake.packages.${system}.helix-cogs;
           steel = steel-flake.packages.${system}.steel;
 
-          default = helix;
+          helix-scheme =
+            {
+              config ? { },
+            }:
+            let
+              tomlFormat = pkgs.formats.toml { };
+              configFile = tomlFormat.generate "config.toml" config;
+            in
+            pkgs.stdenv.mkDerivation {
+              name = "helix-scheme";
+              src = ./.;
+              phases = [ "installPhase" ];
+
+              nativeBuildInputs =
+                with pkgs;
+                [
+                  makeWrapper
+                ]
+                ++ [
+                  helix-cogs
+                  steel
+                ];
+
+              installPhase = ''
+                mkdir -p $out/bin
+                mkdir -p $out/lib
+
+                cp ${pkgs.lib.getExe helix} $out/bin/hxs
+                wrapProgram $out/bin/hxs \
+                  --add-flags "-c ${configFile}" \
+                  --set HELIX_STEEL_CONFIG "$out/lib" \
+
+                install -m0755 $src/helix.scm $out/lib/
+                install -m0755 $src/init.scm $out/lib/
+              '';
+            };
+
+          default = helix-scheme { };
         };
       }
     );
