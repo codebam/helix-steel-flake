@@ -56,6 +56,7 @@
                 mkdir -p $out/lib
 
                 cp ${pkgs.lib.getExe helix} $out/bin/hx
+                cp ${steel}/bin/forge $out/bin/forge
               '';
             };
 
