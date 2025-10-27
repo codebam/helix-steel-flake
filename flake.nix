@@ -33,7 +33,6 @@
       {
         packages = rec {
           helix = helix-flake.packages.${system}.helix;
-          helix-cogs = helix-flake.packages.${system}.helix-cogs;
           steel = steel-flake.packages.${system}.steel;
 
           helix-scheme =
@@ -55,7 +54,6 @@
                   makeWrapper
                 ]
                 ++ [
-                  helix-cogs
                   steel
                 ];
 
