@@ -9,7 +9,7 @@
     };
 
     helix-flake = {
-      url = "github:mattwparas/helix/steel-event-system";
+      url = "github:codebam/helix/steel-event-system";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
