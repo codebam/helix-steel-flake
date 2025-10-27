@@ -44,7 +44,7 @@
               configFile = tomlFormat.generate "config.toml" config;
             in
             pkgs.stdenv.mkDerivation {
-              name = "helix-steel";
+              name = "hx";
               src = ./.;
               phases = [ "installPhase" ];
 
@@ -61,8 +61,8 @@
                 mkdir -p $out/bin
                 mkdir -p $out/lib
 
-                cp ${pkgs.lib.getExe helix} $out/bin/helix-steel
-                wrapProgram $out/bin/helix-steel \
+                cp ${pkgs.lib.getExe helix} $out/bin/hx
+                wrapProgram $out/bin/hx \
                   --add-flags "-c ${configFile}" \
                   --set HELIX_STEEL_CONFIG "$out/lib" \
 
