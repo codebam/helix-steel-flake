@@ -35,7 +35,7 @@
           helix = helix-flake.packages.${system}.helix;
           steel = steel-flake.packages.${system}.steel;
 
-          helix-scheme =
+          helix-steel =
             {
               config ? { },
             }:
@@ -44,7 +44,7 @@
               configFile = tomlFormat.generate "config.toml" config;
             in
             pkgs.stdenv.mkDerivation {
-              name = "helix-scheme";
+              name = "helix-steel";
               src = ./.;
               phases = [ "installPhase" ];
 
@@ -61,8 +61,8 @@
                 mkdir -p $out/bin
                 mkdir -p $out/lib
 
-                cp ${pkgs.lib.getExe helix} $out/bin/hxs
-                wrapProgram $out/bin/hxs \
+                cp ${pkgs.lib.getExe helix} $out/bin/helix-steel
+                wrapProgram $out/bin/helix-steel \
                   --add-flags "-c ${configFile}" \
                   --set HELIX_STEEL_CONFIG "$out/lib" \
 
@@ -71,7 +71,7 @@
               '';
             };
 
-          default = helix-scheme { };
+          default = helix-steel { };
         };
       }
     );
