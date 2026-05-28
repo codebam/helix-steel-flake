@@ -32,7 +32,9 @@
       in
       {
         packages = rec {
-          helix = helix-flake.packages.${system}.helix;
+          helix = helix-flake.packages.${system}.helix.override {
+            includeGrammarIf = grammar: grammar.name != "bovex";
+          };
           steel = steel-flake.packages.${system}.steel;
 
           helix-steel =
