@@ -19,7 +19,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       flake-utils,
       steel-flake,
