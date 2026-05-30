@@ -12,7 +12,6 @@
       url = "github:codebam/helix/steel-event-system";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
       };
     };
   };
